@@ -11,13 +11,20 @@ namespace _6502.Processor
         public void ADC(byte value)
         {
             byte carry = (CPU.PS.C ? (byte)1 : (byte)0);
-            CPU.A = (byte)(CPU.A + value + carry);
+            byte result = (byte)(CPU.A + value + carry);
 
             //set Flags
             CPU.PS.C = (CPU.A + value + carry) > 0xff;
-            CPU.PS.Z = CPU.A == 0;
-            CPU.PS.N = CPU.A >= 0x80;
-            CPU.PS.V = (~(CPU.A ^ value) & (CPU.A ^ CPU.A) & 0x80) != 0;
+            CPU.PS.Z = result == 0;
+            CPU.PS.N = result >= 0x80;
+            CPU.PS.V = (~(CPU.A ^ value) & (CPU.A ^ result) & 0x80) != 0;
+
+            CPU.A = result;
+        }
+
+        public void SBC()
+        {
+
         }
     }
 }
