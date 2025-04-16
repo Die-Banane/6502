@@ -17,7 +17,7 @@ namespace _6502.Processor
 
         public static Status PS; //Processor Status
 
-        public static ALU alu;
+        public static ALU alu; //Arithmetic Logic Unit
 
         public struct Status 
         {
