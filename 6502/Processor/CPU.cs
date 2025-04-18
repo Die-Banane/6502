@@ -42,16 +42,19 @@ namespace _6502.Processor
 
         public static void Reset()
         {
-            bus = 0xfffd;
-            Fetch(RAM.memory);
-            byte vector_1 = data;
             bus = 0xfffc;
             Fetch(RAM.memory);
-            byte vector_2 = data;
+            byte vector_low = data;
 
-            ushort vector = (ushort)((vector_1 << 8) | vector_2);
+            bus = 0xfffd;
+            Fetch(RAM.memory);
+            byte vector_high = data;
 
-            Console.WriteLine(vector.ToString("X4"));
+            PS.B = true;
+            PS.D = false;
+            PS.I = true;
+
+            PC = (ushort)((vector_high << 8) | vector_low);
         }
     }
 }
