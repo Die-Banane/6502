@@ -15,6 +15,10 @@ namespace _6502.Processor
 
         public static ushort PC; //Program Counters
 
+        public static byte data; //data bus
+
+        public static ushort bus; //address bus
+
         public static Status PS; //Processor Status
 
         public static ALU alu; //Arithmetic Logic Unit
@@ -29,6 +33,25 @@ namespace _6502.Processor
             public bool U; //Unused
             public bool V; //Overflow
             public bool N; //Negative
+        }
+
+        public static void Fetch(byte[] memory)
+        {
+            data = memory[bus];
+        }
+
+        public static void Reset()
+        {
+            bus = 0xfffd;
+            Fetch(RAM.memory);
+            byte vector_1 = data;
+            bus = 0xfffc;
+            Fetch(RAM.memory);
+            byte vector_2 = data;
+
+            ushort vector = (ushort)((vector_1 << 8) | vector_2);
+
+            Console.WriteLine(vector.ToString("X4"));
         }
     }
 }
