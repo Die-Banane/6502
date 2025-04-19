@@ -19,7 +19,7 @@ namespace _6502.Processor
 
         public static ushort bus; //address bus
 
-        public static Status PS; //Processor Status
+        public static Status SR; //Processor Status
 
         public static ALU alu; //Arithmetic Logic Unit
         public struct Status 
@@ -58,7 +58,7 @@ namespace _6502.Processor
             }
         }
 
-        public static void Reset()
+        private static void Reset()
         {
             bus = 0xfffc;
             Fetch();
@@ -68,13 +68,26 @@ namespace _6502.Processor
             Fetch();
             byte vector_high = data;
 
-            PS.B = true;
-            PS.D = false;
-            PS.I = true;
-            PS.U = true;
+            SR.B = true;
+            SR.D = false;
+            SR.I = true;
+            SR.U = true;
 
             PC = (ushort)((vector_high << 8) | vector_low);
             SP = 0xff;
+        }
+
+        public static void run(string path)
+        {
+            ushort address = 0;
+
+             foreach(byte opCode in File.ReadAllBytes(path))
+            {
+                RAM.memory[address] = opCode;
+                address++;
+            }
+
+            Reset();
         }
     }
 }
