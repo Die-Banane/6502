@@ -8,10 +8,11 @@ namespace _6502
         {   
             RAM.memory = new byte[0xffff];
 
-            RAM.memory[0xfffd] = 0xea;
-            RAM.memory[0xfffc] = 0xea;
+            RAM.memory[0xfffd] = 0x80;
+            RAM.memory[0xfffc] = 0x00;
 
             CPU.Reset();
+            Console.WriteLine(CPU.PC.ToString("X4"));
             Console.ReadKey();
         }
     }

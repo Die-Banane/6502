@@ -23,6 +23,8 @@ namespace _6502.Processor
 
         public static ALU alu; //Arithmetic Logic Unit
 
+        public static byte[] stack = new byte[255]; //stack memory, locatet between 0x0100 and 0x01ff
+
         public struct Status 
         {
             public bool C; //Carry
@@ -35,26 +37,48 @@ namespace _6502.Processor
             public bool N; //Negative
         }
 
-        public static void Fetch(byte[] memory)
+        private static void push()
         {
-            data = memory[bus];
+            stack[0x0100 + SP] = data;
+            SP--;
+        }
+
+        private static void pull()
+        {
+            SP++;
+            data = stack[0x100 + SP];
+            stack[0x100 + SP] = 0;
+        }
+
+        public static void Fetch()
+        {
+            if(bus >= 0x0100 && bus <= 0x01ff)
+            {
+                data = stack[bus];
+            }
+            else
+            {
+                data = RAM.memory[bus];
+            }
         }
 
         public static void Reset()
         {
             bus = 0xfffc;
-            Fetch(RAM.memory);
+            Fetch();
             byte vector_low = data;
 
             bus = 0xfffd;
-            Fetch(RAM.memory);
+            Fetch();
             byte vector_high = data;
 
             PS.B = true;
             PS.D = false;
             PS.I = true;
+            PS.U = true;
 
             PC = (ushort)((vector_high << 8) | vector_low);
+            SP = 0xff;
         }
     }
 }
