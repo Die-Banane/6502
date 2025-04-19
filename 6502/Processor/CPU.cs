@@ -22,9 +22,6 @@ namespace _6502.Processor
         public static Status PS; //Processor Status
 
         public static ALU alu; //Arithmetic Logic Unit
-
-        public static byte[] stack = new byte[255]; //stack memory, locatet between 0x0100 and 0x01ff
-
         public struct Status 
         {
             public bool C; //Carry
@@ -39,22 +36,21 @@ namespace _6502.Processor
 
         private static void push()
         {
-            stack[0x0100 + SP] = data;
+            RAM.memory[0x0100 + SP] = data;
             SP--;
         }
 
         private static void pull()
         {
             SP++;
-            data = stack[0x100 + SP];
-            stack[0x100 + SP] = 0;
+            data = RAM.memory[0x100 + SP];
         }
 
         public static void Fetch()
         {
             if(bus >= 0x0100 && bus <= 0x01ff)
             {
-                data = stack[bus];
+                pull();
             }
             else
             {
