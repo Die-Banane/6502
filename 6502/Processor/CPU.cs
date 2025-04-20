@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -88,6 +89,55 @@ namespace _6502.Processor
             }
 
             Reset();
+            execute();
+        }
+
+        public static void execute()
+        {
+            bus = PC;
+
+            byte opCode = RAM.memory[bus];
+
+            switch(opCode)
+            {
+                case 0x00:
+                    //BRK_impl
+                    break;
+                
+                case 0x01:
+                    //ORA_X_ind
+                    break;
+
+                case 0x05:
+                    //ORA_zpg
+                    break;
+
+                case 0x06:
+                    //ASL_zpg
+                    break;
+
+                case 0x08:
+                    //PHP_impl
+                    break;
+
+                case 0x09:
+                    //ORA_immediate
+                    break;
+
+                case 0x0a:
+                    //ASL_A
+                    break;
+
+                case 0x0d:
+                    //ORA_abs
+                    break;
+
+                case 0x0e:
+                    //ASL_abs
+                    break;
+
+                //TODO: add default case and the other opCodes
+            }
         }
     }
 }
