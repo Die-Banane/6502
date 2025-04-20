@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Emit;
@@ -34,41 +35,14 @@ namespace _6502.Processor
             public bool V; //Overflow
             public bool N; //Negative
         }
-
-        private static void push()
-        {
-            RAM.memory[0x0100 + SP] = data;
-            SP--;
-        }
-
-        private static void pull()
-        {
-            SP++;
-            data = RAM.memory[0x100 + SP];
-        }
-
         public static void Fetch()
         {
-            if(bus >= 0x0100 && bus <= 0x01ff)
-            {
-                pull();
-            }
-            else
-            {
-                data = RAM.memory[bus];
-            }
+            data = RAM.memory[bus];
         }
 
         public static void Write()
         {
-            if(bus >= 0x0100 && bus <= 0x01ff)
-            {
-                push();
-            }
-            else
-            {
-                RAM.memory[bus] = data;
-            }
+            RAM.memory[bus] = data;
         }
 
         private static void Reset()
@@ -89,26 +63,12 @@ namespace _6502.Processor
             PC = (ushort)((vector_high << 8) | vector_low);
             SP = 0xff;
         }
-
-        public static void run(string path)
-        {
-            ushort address = 0;
-
-            foreach(byte opCode in File.ReadAllBytes(path))
-            {
-                RAM.memory[address] = opCode;
-                address++;
-            }
-
-            Reset();
-            execute();
-        }
-
-        public static void execute()
+        private static void execute()
         {
             while(true)
             {
                 bus = PC;
+                data = 0x00;
 
                 if(bus > 0x01ff || bus < 0x0100)
                 {
@@ -119,8 +79,7 @@ namespace _6502.Processor
                     switch(opCode)
                     {
                         case 0x00:
-                            //BRK_impl
-                            break;
+                            return;
                         
                         case 0x01:
                             //ORA_X_ind
@@ -154,10 +113,48 @@ namespace _6502.Processor
                             //ASL_abs
                             break;
 
+                        case 0x48:
+                            PHA();
+                            break;
+
+                        case 0xa9:
+                            PC++;
+                            alu.ADC(RAM.memory[PC]);
+                            PC++;
+                            break;
+
                         //TODO: add default case and the other opCodes
                     }
                 }
+
+                PC++;
             }
+        }
+
+        private static void PHA()
+        {
+            bus = (ushort)(0x0100 + SP);
+
+            data = A;
+
+            Write();
+
+            SP--;
+            PC++;
+        }
+
+        public static void run(string path)
+        {
+            ushort address = 0;
+
+            foreach(byte opCode in File.ReadAllBytes(path))
+            {
+                RAM.memory[address] = opCode;
+                address++;
+            }
+
+            Reset();
+            execute();
         }
     }
 }

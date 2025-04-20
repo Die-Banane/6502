@@ -1,0 +1,3 @@
+LDA #$42
+PHA
+BRK
