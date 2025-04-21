@@ -8,6 +8,8 @@ namespace _6502
         {   
             CPU.run(Console.ReadLine());
             Console.ReadKey();
+            CPU.Dump();
+            Console.ReadKey();
         }
     }
 }

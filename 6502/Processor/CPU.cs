@@ -23,7 +23,7 @@ namespace _6502.Processor
 
         public static Status SR; //Processor Status
 
-        public static ALU alu; //Arithmetic Logic Unit
+        public static ALU alu = new ALU(); //Arithmetic Logic Unit
         public struct Status 
         {
             public bool C; //Carry
@@ -37,12 +37,12 @@ namespace _6502.Processor
         }
         public static void Fetch()
         {
-            data = RAM.memory[bus];
+            data = Memory.RAM[bus];
         }
 
         public static void Write()
         {
-            RAM.memory[bus] = data;
+            Memory.RAM[bus] = data;
         }
 
         private static void Reset()
@@ -61,7 +61,7 @@ namespace _6502.Processor
             SR.U = true;
 
             PC = (ushort)((vector_high << 8) | vector_low);
-            SP = 0xff;
+            SP = 0x00ff;
         }
         private static void execute()
         {
@@ -119,15 +119,17 @@ namespace _6502.Processor
 
                         case 0xa9:
                             PC++;
-                            alu.ADC(RAM.memory[PC]);
+                            alu.ADC(Memory.RAM[PC]);
                             PC++;
                             break;
 
                         //TODO: add default case and the other opCodes
                     }
                 }
-
-                PC++;
+                else
+                {
+                    PC++;
+                }
             }
         }
 
@@ -149,12 +151,30 @@ namespace _6502.Processor
 
             foreach(byte opCode in File.ReadAllBytes(path))
             {
-                RAM.memory[address] = opCode;
+                Memory.RAM[address] = opCode;
                 address++;
             }
 
             Reset();
             execute();
+        }
+
+        public static void Dump()
+        {
+            Console.WriteLine("Accumulator: " + A.ToString("X4"));
+            Console.WriteLine("X and Y: " + X.ToString("X4") + " " + Y.ToString("X4"));
+            Console.WriteLine("Stack Pointer: " + SP.ToString("X4"));
+            Console.WriteLine("Program Counter: " + PC.ToString("X4"));
+            Console.WriteLine("current opCode: " + data.ToString("4X"));
+            Console.WriteLine("Current Address: " + bus.ToString("X4"));
+            Console.WriteLine("C flag: " + SR.C.ToString());
+            Console.WriteLine("Z flag: " + SR.Z.ToString());
+            Console.WriteLine("I flag: " + SR.I.ToString());
+            Console.WriteLine("D flag: " + SR.D.ToString());
+            Console.WriteLine("B flag: " + SR.B.ToString());
+            Console.WriteLine("V flag: " + SR.V.ToString());
+            Console.WriteLine("N flag: " + SR.N.ToString());
+            Console.WriteLine(Memory.RAM[0x01FF].ToString("X4"));
         }
     }
 }
