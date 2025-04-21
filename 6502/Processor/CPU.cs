@@ -70,15 +70,17 @@ namespace _6502.Processor
                 bus = PC;
                 data = 0x00;
 
-                if(bus > 0x01ff || bus < 0x0100)
+                if(bus > 0x01ff)
                 {
                     Fetch();
 
                     byte opCode = data;
 
+                    #region opCodes
                     switch(opCode)
                     {
                         case 0x00:
+                            Console.WriteLine("die Ausführung des Programms wurde erfolgreich beendet");
                             return;
                         
                         case 0x01:
@@ -113,11 +115,198 @@ namespace _6502.Processor
                             //ASL_abs
                             break;
 
+                        case 0x10:
+                            //BPL_rel
+                            break;
+
+                        case 0x11:
+                            //ORA_ind_Y
+                            break;
+
+                        case 0x15:
+                            //ORA_zpg_X
+                            break;
+                        
+                        case 0x16:
+                            //ASL_zpg_X
+                            break;
+
+                        case 0x18:
+                            //CLC_impl
+                            break;
+
+                        case 0x19:
+                            //ORA_abs_Y
+                            break;
+
+                        case 0x1d:
+                            //ORA_abs_X
+                            break;
+                        case 0x1e:
+                            //ASL_abs_X
+                            break;
+
+                        case 0x20:
+                            //JSR_abs
+                            break;
+
+                        case 0x21:
+                            //AND_X_ind
+                            break;
+
+                        case 0x24:
+                            //BIT_zpg
+                            break;
+
+                        case 0x25:
+                            //AND_zpg
+                            break;
+
+                        case 0x26:
+                            //RQL_zpg
+                            break;
+
+                        case 0x28:
+                            //PLP_impl
+                            break;
+
+                        case 0x29:
+                            //AND_immediate
+                            break;
+
+                        case 0x2a:
+                            //ROL_A
+                            break;
+
+                        case 0x2c:
+                            //BIT_abs
+                            break;
+
+                        case 0x2d:
+                            //AND_abs
+                            break;
+
+                        case 0x2e:
+                            //ROL_abs
+                            break;
+
+                        case 0x30:
+                            //BMI_rel
+                            break;
+
+                        case 0x31:
+                            //AND_ind_Y
+                            break;
+
+                        case 0x35:
+                            //AND_zpg_X
+                            break;
+
+                        case 0x36:
+                            //ROL_zpg_X
+                            break;
+
+                        case 0x38:
+                            //SEC_impl
+                            break;
+
+                        case 0x39:
+                            //AND_abs_Y
+                            break;
+
+                        case 0x3d:
+                            //AND_abs_X
+                            break;
+
+                        case 0x3e:
+                            //ROL_abs_X
+                            break;
+
+                        case 0x40:
+                            //RTI
+                            break;
+
+                        case 0x41:
+                            //EOR_X_ind
+                            break;
+
+                        case 0x45:
+                            //EOR_zpg
+                            break;
+
+                        case 0x46:
+                            //LSR_zpg
+                            break;
+                            
                         case 0x48:
                             PHA();
                             break;
 
-                        case 0xa9:
+                        case 0x49:
+                            //EOR_immediate
+                            break;
+                        
+                        case 0x4a:
+                            //LSR_A
+                            break;
+
+                        case 0x4c:
+                            //JMP_abs
+                            break;
+
+                        case 0x4d:
+                            //EOR_abs
+                            break;
+
+                        case 0x4e:
+                            //LSR_abs
+                            break;
+
+                        case 0x50:
+                            //BVC_rel
+                            break;
+
+                        case 0x51:
+                            //EOR_rel
+                            break;
+
+                        case 0x55:
+                            //EOR_zpg_X
+                            break;
+
+                        case 0x56:
+                            //LSR_zpg_X
+                            break;
+
+                        case 0x58:
+                            //CLI_impl
+                            break;
+
+                        case 0x59:
+                            //EOR_abs_Y
+                            break;
+
+                        case 0x5d:
+                            //EOR_abs_X
+                            break;
+
+                        case 0x5e:
+                            //LSR_abs_X
+                            break;
+
+                        case 0x60:
+                            //RTS_impl
+                            break;
+
+                        case 0x61:
+                            PC++;
+                            byte i = (byte)(X + Memory.RAM[PC]);
+                            bus = (ushort)(Memory.RAM[i] + (Memory.RAM[i + 1] << 8));
+                            alu.ADC((byte)(Memory.RAM[bus]));
+                            PC++;
+                            break;
+
+                        case 0x69:
                             PC++;
                             alu.ADC(Memory.RAM[PC]);
                             PC++;
@@ -125,6 +314,7 @@ namespace _6502.Processor
 
                         //TODO: add default case and the other opCodes
                     }
+                    #endregion opCodes
                 }
                 else
                 {
