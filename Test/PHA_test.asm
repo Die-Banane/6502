@@ -1,3 +1,3 @@
-LDA #$42
+LDA $1030
 PHA
 BRK

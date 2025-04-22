@@ -33,6 +33,10 @@ namespace _6502.Processor
             public bool V; //Overflow
             public bool N; //Negative
         }
+
+        static byte low;
+        static byte high;
+        static byte zpAdr;
         public static void Fetch()
         {
             data = Memory.RAM[bus];
@@ -237,6 +241,7 @@ namespace _6502.Processor
                             
                         case 0x48:
                             Instructions.PHA();
+                            PC++;
                             break;
 
                         case 0x49:
@@ -297,15 +302,66 @@ namespace _6502.Processor
 
                         case 0x61:
                             PC++;
-                            byte i = (byte)(X + Memory.RAM[PC]);
-                            bus = (ushort)(Memory.RAM[i] + (Memory.RAM[i + 1] << 8));
+                            zpAdr = (byte)(X + Memory.RAM[PC]);
+                            bus = (ushort)(Memory.RAM[zpAdr] + (Memory.RAM[zpAdr + 1] << 8));
                             Instructions.ADC((byte)(Memory.RAM[bus]));
                             PC++;
+                            break;
+
+                        case 0x65:
+                            PC++;
+                            zpAdr = Memory.RAM[PC];
+                            Instructions.ADC(Memory.RAM[zpAdr]);
+                            PC++;
+                            break;
+
+                        case 0x66:
+                            //ROR_zpg
+                            break;
+
+                        case 0x68:
+                            //PLA_impl
                             break;
 
                         case 0x69:
                             PC++;
                             Instructions.ADC(Memory.RAM[PC]);
+                            PC++;
+                            break;
+
+                        case 0x6a:
+                            //ROR_A
+                            break;
+
+                        case 0x6c:
+                            //JMP_ind
+                            break;
+
+                        case 0x6d:
+                            PC++;
+                            low = Memory.RAM[PC];
+                            PC++;
+                            high = Memory.RAM[PC];
+                            bus = (ushort)((high << 8) | low);
+                            Instructions.ADC(Memory.RAM[bus]);
+                            PC++;
+                            break;
+
+                        case 0x6e:
+                            //ROR_abs
+                            break;
+
+                        case 0x70:
+                            //BVS_rel
+                            break;
+
+                        case 0x71:
+                            PC++;
+                            zpAdr = Memory.RAM[PC];
+                            low = Memory.RAM[zpAdr];
+                            high = Memory.RAM[zpAdr + 1];
+                            bus = (ushort)(((high << 8) | low) + Y);
+                            Instructions.ADC(Memory.RAM[bus]);
                             PC++;
                             break;
 
@@ -339,6 +395,8 @@ namespace _6502.Processor
 
             Memory.RAM[0xfffc] = 0x00;
             Memory.RAM[0xfffd] = 0x02;
+
+            Memory.RAM[0x1030] = 0x69;
 
             Reset();
             execute();
