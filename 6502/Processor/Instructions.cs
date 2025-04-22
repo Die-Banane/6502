@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace _6502.Processor
 {
-    internal class ALU
+    public static class Instructions
     {
-        public void ADC(byte value)
+        public static void ADC(byte value)
         {
             byte carry = (CPU.SR.C ? (byte)1 : (byte)0);
             byte result = (byte)(CPU.A + value + carry);
@@ -22,7 +22,7 @@ namespace _6502.Processor
             CPU.A = result;
         }
 
-        public void SBC(byte value)
+        public static void SBC(byte value)
         {
             byte carry = (CPU.SR.C ? (byte)1 : (byte)0);
             byte result = (byte)(CPU.A + (~value) + carry);
@@ -34,6 +34,38 @@ namespace _6502.Processor
             CPU.SR.V = ((CPU.A ^ value) & 0x80) != 0x00 && ((CPU.A ^ result) & 0x80) != 0x00;
 
             CPU.A = result;
+        }
+
+        public static void PHA()
+        {
+            CPU.bus = (ushort)(0x0100 + CPU.SP);
+
+            CPU.data = CPU.A;
+
+            CPU.Write();
+
+            CPU.SP--;
+            CPU.PC++;
+        }
+
+        public static void LDA(byte value)
+        {
+            CPU.A = value;
+        }
+
+        public static void LDX(byte value)
+        {
+            CPU.X = value;
+        }
+
+        public static void LDY(byte value)
+        {
+            CPU.Y = value;
+        }
+
+        public static void CLC()
+        {
+            CPU.SR.C = false;
         }
     }
 }
