@@ -365,6 +365,11 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0x75:
+                            Instructions.ADC(Adr_modes.Zpg_X());
+                            PC++;
+                            break;
+
                         case 0xa2:
                             PC++;
                             Instructions.LDX(Memory.RAM[PC]);
