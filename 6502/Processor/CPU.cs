@@ -366,7 +366,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x75:
-                            Instructions.ADC(Adr_modes.Zpg_X());
+                            Instructions.ADC(Adr_modes.Indexed_Zpg(X));
                             PC++;
                             break;
 
@@ -400,8 +400,6 @@ namespace _6502.Processor
 
             Memory.RAM[0xfffc] = 0x00;
             Memory.RAM[0xfffd] = 0x02;
-
-            Memory.RAM[0x1030] = 0x69;
 
             Reset();
             execute();

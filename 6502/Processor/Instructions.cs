@@ -8,30 +8,30 @@ namespace _6502.Processor
 {
     public static class Instructions
     {
-        public static void ADC(byte value)
+        public static void ADC(byte operand)
         {
             byte carry = (CPU.SR.C ? (byte)1 : (byte)0);
-            byte result = (byte)(CPU.A + value + carry);
+            byte result = (byte)(CPU.A + operand + carry);
 
             //set Flags
-            CPU.SR.C = (int)(CPU.A + value + carry) > 0xff;
+            CPU.SR.C = (int)(CPU.A + operand + carry) > 0xff;
             CPU.SR.Z = result == 0;
             CPU.SR.N = result >= 0x80;
-            CPU.SR.V = ((CPU.A ^ value) & 0x80) == 0x00 && ((CPU.A ^ result) & 0x80) != 0x00;
+            CPU.SR.V = ((CPU.A ^ operand) & 0x80) == 0x00 && ((CPU.A ^ result) & 0x80) != 0x00;
 
             CPU.A = result;
         }
 
-        public static void SBC(byte value)
+        public static void SBC(byte operand)
         {
             byte carry = (CPU.SR.C ? (byte)1 : (byte)0);
-            byte result = (byte)(CPU.A + (~value) + carry);
-            ushort result16 = (ushort)(CPU.A + (~value) + carry);
+            byte result = (byte)(CPU.A + (~operand) + carry);
+            ushort result16 = (ushort)(CPU.A + (~operand) + carry);
 
             CPU.SR.C = (result16 & 0x100) == 0x00;
             CPU.SR.Z = result == 0;
             CPU.SR.N = result >= 0x00;
-            CPU.SR.V = ((CPU.A ^ value) & 0x80) != 0x00 && ((CPU.A ^ result) & 0x80) != 0x00;
+            CPU.SR.V = ((CPU.A ^ operand) & 0x80) != 0x00 && ((CPU.A ^ result) & 0x80) != 0x00;
 
             CPU.A = result;
         }
@@ -48,19 +48,19 @@ namespace _6502.Processor
             CPU.PC++;
         }
 
-        public static void LDA(byte value)
+        public static void LDA(byte operand)
         {
-            CPU.A = value;
+            CPU.A = operand;
         }
 
-        public static void LDX(byte value)
+        public static void LDX(byte operand)
         {
-            CPU.X = value;
+            CPU.X = operand;
         }
 
-        public static void LDY(byte value)
+        public static void LDY(byte operand)
         {
-            CPU.Y = value;
+            CPU.Y = operand;
         }
 
         public static void CLC()
