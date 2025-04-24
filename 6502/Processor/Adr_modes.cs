@@ -10,6 +10,12 @@ namespace _6502
         {
             CPU.PC++;
             CPU.bus = (ushort)((Memory.RAM[CPU.PC] + CPU.X));
+
+            if(CPU.bus > 0xff)
+            {
+                CPU.bus = (ushort)(CPU.bus - 256);
+            }
+
             CPU.Fetch();
             return CPU.data;
         }
