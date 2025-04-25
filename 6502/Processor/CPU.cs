@@ -301,17 +301,12 @@ namespace _6502.Processor
                             break;
 
                         case 0x61:
-                            PC++;
-                            zpAdr = (byte)(X + Memory.RAM[PC]);
-                            bus = (ushort)(Memory.RAM[zpAdr] + (Memory.RAM[zpAdr + 1] << 8));
-                            Instructions.ADC((byte)(Memory.RAM[bus]));
+                            Instructions.ADC(Adr_modes.Pre_Indexed());
                             PC++;
                             break;
 
                         case 0x65:
-                            PC++;
-                            zpAdr = Memory.RAM[PC];
-                            Instructions.ADC(Memory.RAM[zpAdr]);
+                            Instructions.ADC(Adr_modes.Zpg());
                             PC++;
                             break;
 
@@ -324,8 +319,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x69:
-                            PC++;
-                            Instructions.ADC(Memory.RAM[PC]);
+                            Instructions.ADC(Adr_modes.Immediate());
                             PC++;
                             break;
 
@@ -338,12 +332,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x6d:
-                            PC++;
-                            low = Memory.RAM[PC];
-                            PC++;
-                            high = Memory.RAM[PC];
-                            bus = (ushort)((high << 8) | low);
-                            Instructions.ADC(Memory.RAM[bus]);
+                            Instructions.ADC(Adr_modes.Absolute());
                             PC++;
                             break;
 
@@ -356,12 +345,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x71:
-                            PC++;
-                            zpAdr = Memory.RAM[PC];
-                            low = Memory.RAM[zpAdr];
-                            high = Memory.RAM[zpAdr + 1];
-                            bus = (ushort)(((high << 8) | low) + Y);
-                            Instructions.ADC(Memory.RAM[bus]);
+                            Instructions.ADC(Adr_modes.Post_Indexed());
                             PC++;
                             break;
 

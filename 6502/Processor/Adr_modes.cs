@@ -1,5 +1,6 @@
 using System;
 using System.Buffers;
+using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.X86;
 using _6502.Processor;
 
@@ -104,6 +105,60 @@ namespace _6502
             return (ushort)((high << 8) | low);
         }
 
-        
+        public static byte Pre_Indexed()
+        {
+            CPU.PC++;
+            CPU.bus = CPU.PC;
+            CPU.Fetch();
+
+            CPU.bus = (ushort)(CPU.data + CPU.X);
+
+            if(CPU.bus > 0xff)
+            {
+                CPU.bus = (ushort)(CPU.bus - 256);
+            }
+
+            CPU.Fetch();
+            byte low = CPU.data;
+
+            CPU.bus++;
+
+            CPU.Fetch();
+            byte high = CPU.data;
+
+            CPU.bus = (ushort)((high << 8) | low);
+            CPU.Fetch();
+
+            return CPU.data;
+        }
+
+        public static byte Post_Indexed()
+        {
+            CPU.PC++;
+            CPU.bus = CPU.PC;
+            CPU.Fetch();
+
+            CPU.bus = CPU.data;
+            CPU.Fetch();
+
+            byte low = CPU.data;
+
+            CPU.bus++;
+
+            if(CPU.bus > 0xff)
+            {
+                CPU.bus = (ushort)(CPU.bus - 256);
+            }
+
+            CPU.Fetch();
+
+            byte high = CPU.data;
+
+            CPU.bus = (ushort)(((high << 8) | low) + CPU.Y);
+
+            CPU.Fetch();
+
+            return CPU.data;
+        }
     }
 }

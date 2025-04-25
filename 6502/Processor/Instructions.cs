@@ -67,5 +67,13 @@ namespace _6502.Processor
         {
             CPU.SR.C = false;
         }
+
+        public static void AND(byte operand)
+        {
+            CPU.A = (byte)(CPU.A & operand);
+
+            CPU.SR.Z = CPU.A == 0x00;
+            CPU.SR.N = (CPU.A & 0x80) == 0x80;
+        }
     }
 }
