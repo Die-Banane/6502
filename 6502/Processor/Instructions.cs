@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,6 +75,18 @@ namespace _6502.Processor
 
             CPU.SR.Z = CPU.A == 0x00;
             CPU.SR.N = (CPU.A & 0x80) == 0x80;
+        }
+        
+        public static byte ASL(byte operand)
+        {
+            CPU.SR.C = (operand & 0x80) == 0x80;
+
+            operand = (byte)(operand << 1);
+            
+            CPU.SR.Z = operand == 0x00;
+            //TODO: add the N Flag
+
+            return operand;
         }
     }
 }

@@ -6,7 +6,10 @@ namespace _6502
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            CPU.run(Console.ReadLine());
+            Console.ReadKey();
+            CPU.Dump();
+            Console.ReadKey();
         }
     }
 }

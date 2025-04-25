@@ -92,7 +92,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x06:
-                            //ASL_zpg
+                            data = Instructions.ASL(Adr_modes.Zpg());
+                            Write();
+                            PC++;
                             break;
 
                         case 0x08:
@@ -104,7 +106,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x0a:
-                            //ASL_A
+                            A = Instructions.ASL(A);
+                            PC++;
                             break;
 
                         case 0x0d:
@@ -402,7 +405,7 @@ namespace _6502.Processor
             Console.WriteLine("B flag: " + SR.B.ToString());
             Console.WriteLine("V flag: " + SR.V.ToString());
             Console.WriteLine("N flag: " + SR.N.ToString());
-            Console.WriteLine(Memory.RAM[0x0400].ToString("X4"));
+            Console.WriteLine(Memory.RAM[0x80].ToString("X4"));
         }
     }
 }
