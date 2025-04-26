@@ -1,2 +1,3 @@
-ASL $80
+LDA #$69
+ASL A
 BRK

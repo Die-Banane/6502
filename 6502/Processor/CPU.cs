@@ -115,7 +115,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x0e:
-                            //ASL_abs
+                            data = Instructions.ASL(Adr_modes.Absolute());
+                            Write();
+                            PC++;
                             break;
 
                         case 0x10:
@@ -131,7 +133,9 @@ namespace _6502.Processor
                             break;
                         
                         case 0x16:
-                            //ASL_zpg_X
+                            data = Instructions.ASL(Adr_modes.Indexed(X));
+                            Write();
+                            PC++;
                             break;
 
                         case 0x18:
@@ -147,7 +151,9 @@ namespace _6502.Processor
                             //ORA_abs_X
                             break;
                         case 0x1e:
-                            //ASL_abs_X
+                            data = Instructions.ASL(Adr_modes.Indexed(X));
+                            Write();
+                            PC++;
                             break;
 
                         case 0x20:
@@ -155,15 +161,18 @@ namespace _6502.Processor
                             break;
 
                         case 0x21:
-                            //AND_X_ind
+                            Instructions.AND(Adr_modes.Pre_Indexed());
+                            PC++;
                             break;
 
                         case 0x24:
-                            //BIT_zpg
+                            Instructions.BIT(Adr_modes.Zpg());
+                            PC++;
                             break;
 
                         case 0x25:
-                            //AND_zpg
+                            Instructions.AND(Adr_modes.Zpg());
+                            PC++;
                             break;
 
                         case 0x26:
@@ -175,7 +184,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x29:
-                            //AND_immediate
+                            Instructions.AND(Adr_modes.Immediate());
+                            PC++;
                             break;
 
                         case 0x2a:
@@ -183,11 +193,12 @@ namespace _6502.Processor
                             break;
 
                         case 0x2c:
-                            //BIT_abs
+                            Instructions.BIT(Adr_modes.Absolute());
+                            PC++;
                             break;
 
                         case 0x2d:
-                            //AND_abs
+                            Instructions.AND(Adr_modes.Absolute());
                             break;
 
                         case 0x2e:
@@ -199,11 +210,13 @@ namespace _6502.Processor
                             break;
 
                         case 0x31:
-                            //AND_ind_Y
+                            Instructions.AND(Adr_modes.Post_Indexed());
+                            PC++;
                             break;
 
                         case 0x35:
-                            //AND_zpg_X
+                            Instructions.AND(Adr_modes.Indexed_Zpg(X));
+                            PC++;
                             break;
 
                         case 0x36:
@@ -215,11 +228,13 @@ namespace _6502.Processor
                             break;
 
                         case 0x39:
-                            //AND_abs_Y
+                            Instructions.AND(Adr_modes.Indexed(Y));
+                            PC++;
                             break;
 
                         case 0x3d:
-                            //AND_abs_X
+                            Instructions.AND(Adr_modes.Indexed(X));
+                            PC++;
                             break;
 
                         case 0x3e:
@@ -358,14 +373,12 @@ namespace _6502.Processor
                             break;
 
                         case 0xa2:
-                            PC++;
-                            Instructions.LDX(Memory.RAM[PC]);
+                            Instructions.LDX(Adr_modes.Immediate());
                             PC++;
                             break;
 
                         case 0xa9:
-                            PC++;
-                            Instructions.LDA(Memory.RAM[PC]);
+                            Instructions.LDA(Adr_modes.Immediate());
                             PC++;
                             break;
 
