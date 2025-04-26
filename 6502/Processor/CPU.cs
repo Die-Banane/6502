@@ -299,7 +299,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x58:
-                            //CLI_impl
+                            Instructions.CLI();
+                            PC++;
                             break;
 
                         case 0x59:
@@ -379,6 +380,16 @@ namespace _6502.Processor
 
                         case 0xa9:
                             Instructions.LDA(Adr_modes.Immediate());
+                            PC++;
+                            break;
+
+                        case 0xb8:
+                            Instructions.CLV();
+                            PC++;
+                            break;
+
+                        case 0xd8:
+                            Instructions.CLD();
                             PC++;
                             break;
 

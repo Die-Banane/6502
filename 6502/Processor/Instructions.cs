@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -63,11 +64,6 @@ namespace _6502.Processor
             CPU.Y = operand;
         }
 
-        public static void CLC()
-        {
-            CPU.SR.C = false;
-        }
-
         public static void AND(byte operand)
         {
             CPU.A = (byte)(CPU.A & operand);
@@ -93,6 +89,26 @@ namespace _6502.Processor
             CPU.SR.Z = (CPU.A & operand) == 0x00;
             CPU.SR.N = (operand & 0x80) == 0x80;
             CPU.SR.V = (operand & 0x40) == 0x40;
+        }
+
+        public static void CLC()
+        {
+            CPU.SR.C = false;
+        }
+
+        public static void CLD()
+        {
+            CPU.SR.D = false;
+        }
+
+        public static void CLV()
+        {
+            CPU.SR.V = false;
+        }
+
+        public static void CLI()
+        {
+            CPU.SR.I = false;
         }
     }
 }
