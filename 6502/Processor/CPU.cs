@@ -383,6 +383,11 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xc5:
+                            Instructions.CMP(Adr_modes.Zpg());
+                            PC++;
+                            break;
+
                         case 0xc9:
                             Instructions.CMP(Adr_modes.Immediate());
                             PC++;
@@ -392,6 +397,9 @@ namespace _6502.Processor
                             Instructions.CLV();
                             PC++;
                             break;
+
+                        case 0xd5:
+                           // Instructions.CMP(Adr_modes.pre
 
                         case 0xd8:
                             Instructions.CLD();
