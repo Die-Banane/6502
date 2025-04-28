@@ -110,5 +110,14 @@ namespace _6502.Processor
         {
             CPU.SR.I = false;
         }
+
+        public static void CMP(byte operand)
+        {
+            operand = CPU.A - operand;
+
+            CPU.SR.Z = operand == 0x00;
+            CPU.SR.N = (byte)((operand & 0x80) == 0x80);
+            //TODO: set carry flag right
+        }
     }
 }

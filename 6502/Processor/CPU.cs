@@ -383,6 +383,11 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xc9:
+                            Instructions.CMP(Adr_modes.Immediate());
+                            PC++;
+                            break;
+
                         case 0xb8:
                             Instructions.CLV();
                             PC++;
