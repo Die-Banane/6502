@@ -399,7 +399,9 @@ namespace _6502.Processor
                             break;
 
                         case 0xd5:
-                           // Instructions.CMP(Adr_modes.pre
+                           Instructions.CMP(Adr_modes.Indexed_Zpg());
+                           PC++;
+                           break;
 
                         case 0xd8:
                             Instructions.CLD();
