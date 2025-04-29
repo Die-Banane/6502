@@ -113,10 +113,28 @@ namespace _6502.Processor
 
         public static void CMP(byte operand)
         {
-            operand = CPU.A - operand;
+            operand = (byte)(CPU.A - operand);
 
             CPU.SR.Z = operand == 0x00;
-            CPU.SR.N = (byte)((operand & 0x80) == 0x80);
+            CPU.SR.N = (operand & 0x80) == 0x80;
+            //TODO: set carry flag right
+        }
+
+        public static void CPX(byte operand)
+        {
+            operand = (byte)(CPU.X - operand);
+
+            CPU.SR.Z = operand == 0x00;
+            CPU.SR.N = (operand & 0x80) == 0x80;
+            //TODO: set carry flag right
+        }
+
+        public static void CPY(byte operand)
+        {
+            operand = (byte)(CPU.Y - operand);
+
+            CPU.SR.Z = operand == 0x00;
+            CPU.SR.N = (operand & 0x80) == 0x80;
             //TODO: set carry flag right
         }
     }

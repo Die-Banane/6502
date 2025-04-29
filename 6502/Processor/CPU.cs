@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Globalization;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -383,6 +384,26 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xb8:
+                            Instructions.CLV();
+                            PC++;
+                            break;
+
+                        case 0xc0:
+                            Instructions.CPY(Adr_modes.Immediate());
+                            PC++;
+                            break;
+
+                        case 0xc1:
+                            Instructions.CMP(Adr_modes.Pre_Indexed());
+                            PC++;
+                            break;
+
+                        case 0xc4:
+                            Instructions.CPY(Adr_modes.Zpg());
+                            PC++;
+                            break;
+
                         case 0xc5:
                             Instructions.CMP(Adr_modes.Zpg());
                             PC++;
@@ -393,18 +414,53 @@ namespace _6502.Processor
                             PC++;
                             break;
 
-                        case 0xb8:
-                            Instructions.CLV();
+                        case 0xcc:
+                            Instructions.CPY(Adr_modes.Absolute());
+                            PC++;
+                            break;
+
+                        case 0xcd:
+                            Instructions.CMP(Adr_modes.Absolute());
+                            PC++;
+                            break;
+
+                        case 0xd1:
+                            Instructions.CMP(Adr_modes.Post_Indexed());
                             PC++;
                             break;
 
                         case 0xd5:
-                           Instructions.CMP(Adr_modes.Indexed_Zpg());
+                           Instructions.CMP(Adr_modes.Indexed_Zpg(X));
                            PC++;
                            break;
 
                         case 0xd8:
                             Instructions.CLD();
+                            PC++;
+                            break;
+
+                        case 0xd9:
+                            Instructions.CMP(Adr_modes.Indexed(Y));
+                            PC++;
+                            break;
+
+                        case 0xdd:
+                            Instructions.CMP(Adr_modes.Indexed(X));
+                            PC++;
+                            break;
+
+                        case 0xe0:
+                            Instructions.CPX(Adr_modes.Immediate());
+                            PC++;
+                            break;
+
+                        case 0xe4:
+                            Instructions.CPX(Adr_modes.Zpg());
+                            PC++;
+                            break;
+
+                        case 0xec:
+                            Instructions.CPX(Adr_modes.Absolute());
                             PC++;
                             break;
 
@@ -431,7 +487,7 @@ namespace _6502.Processor
             execute();
         }
 
-        public static void Dump()
+        public static void Dump_temp()
         {
             Console.WriteLine("Accumulator: " + A.ToString("X4"));
             Console.WriteLine("X and Y: " + X.ToString("X4") + " " + Y.ToString("X4"));
@@ -445,6 +501,19 @@ namespace _6502.Processor
             Console.WriteLine("V flag: " + SR.V.ToString());
             Console.WriteLine("N flag: " + SR.N.ToString());
             Console.WriteLine(Memory.RAM[0x80].ToString("X4"));
+        }
+
+        public static void Dump()
+        {
+            string dir = Path.Combine(AppContext.BaseDirectory, "output");
+            
+            if(Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+
+            string fullPath = Path.Combine(dir, "output1.bin");
+            File.WriteAllBytes(fullPath, Memory.RAM);
         }
     }
 }
