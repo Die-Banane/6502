@@ -428,6 +428,11 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xc8:
+                            Instructions.INY();
+                            PC++;
+                            break;
+
                         case 0xc9:
                             Instructions.CMP(Adr_modes.Immediate());
                             PC++;
@@ -501,8 +506,37 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xe6:
+                            data = Instructions.INC(Adr_modes.Zpg());
+                            Write();
+                            PC++;
+                            break;
+
+                        case 0xe8:
+                            Instructions.INX();
+                            PC++;
+                            break;
+
                         case 0xec:
                             Instructions.CPX(Adr_modes.Absolute());
+                            PC++;
+                            break;
+
+                        case 0xee:
+                            data = Instructions.INC(Adr_modes.Absolute());
+                            Write();
+                            PC++;
+                            break;
+
+                        case 0xf6:
+                            data = Instructions.INC(Adr_modes.Indexed_Zpg(X));
+                            Write();
+                            PC++;
+                            break;
+
+                        case 0xfe:
+                            data = Instructions.INC(Adr_modes.Indexed(X));
+                            Write();
                             PC++;
                             break;
 
