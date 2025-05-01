@@ -197,5 +197,10 @@ namespace _6502.Processor
             CPU.SR.Z = CPU.Y == 0x00;
             CPU.SR.N = (CPU.Y & 0x80) == 0x80;  
         }
+
+        public static void LSR(byte operand)
+        {
+            
+        }
     }
 }
