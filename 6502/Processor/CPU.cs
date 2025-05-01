@@ -247,11 +247,13 @@ namespace _6502.Processor
                             break;
 
                         case 0x41:
-                            //EOR_X_ind
+                            Instructions.EOR(Adr_modes.Pre_Indexed());
+                            PC++;
                             break;
 
                         case 0x45:
-                            //EOR_zpg
+                            Instructions.EOR(Adr_modes.Zpg());
+                            PC++;
                             break;
 
                         case 0x46:
@@ -264,7 +266,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x49:
-                            //EOR_immediate
+                            Instructions.EOR(Adr_modes.Immediate());
+                            PC++;
                             break;
                         
                         case 0x4a:
@@ -276,7 +279,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x4d:
-                            //EOR_abs
+                            Instructions.EOR(Adr_modes.Absolute());
+                            PC++;
                             break;
 
                         case 0x4e:
@@ -288,11 +292,13 @@ namespace _6502.Processor
                             break;
 
                         case 0x51:
-                            //EOR_rel
+                            Instructions.EOR(Adr_modes.Post_Indexed());
+                            PC++;
                             break;
 
                         case 0x55:
-                            //EOR_zpg_X
+                            Instructions.EOR(Adr_modes.Indexed_Zpg(X));
+                            PC++;
                             break;
 
                         case 0x56:
@@ -305,11 +311,13 @@ namespace _6502.Processor
                             break;
 
                         case 0x59:
-                            //EOR_abs_Y
+                            Instructions.EOR(Adr_modes.Indexed(Y));
+                            PC++;
                             break;
 
                         case 0x5d:
-                            //EOR_abs_X
+                            Instructions.EOR(Adr_modes.Indexed(X));
+                            PC++;
                             break;
 
                         case 0x5e:
