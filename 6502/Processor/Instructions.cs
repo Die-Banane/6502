@@ -163,5 +163,13 @@ namespace _6502.Processor
             CPU.SR.Z = CPU.Y == 0x00;
             CPU.SR.N = (CPU.Y & 0x80) == 0x80;
         }
+
+        public static void EOR(byte operand)
+        {
+            CPU.A = (byte)(CPU.A ^ operand);
+
+            CPU.SR.Z = CPU.A == 0x00;
+            CPU.SR.N = (CPU.A & 0x80) == 0x80;
+        }
     }
 }
