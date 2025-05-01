@@ -137,5 +137,31 @@ namespace _6502.Processor
             CPU.SR.N = (operand & 0x80) == 0x80;
             //TODO: set carry flag right
         }
+
+        public static byte DEC(byte operand)
+        {
+            operand--;
+
+            CPU.SR.Z = operand == 0x00;
+            CPU.SR.N = (operand & 0x80) == 0x80;
+
+            return operand;
+        }
+
+        public static void DEX()
+        {
+            CPU.X--;
+
+            CPU.SR.Z = CPU.X == 0x00;
+            CPU.SR.N = (CPU.X & 0x80) == 0x80;
+        }
+
+        public static void DEY()
+        {
+            CPU.Y--;
+
+            CPU.SR.Z = CPU.Y == 0x00;
+            CPU.SR.N = (CPU.Y & 0x80) == 0x80;
+        }
     }
 }

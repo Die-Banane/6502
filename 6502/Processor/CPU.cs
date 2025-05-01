@@ -374,6 +374,11 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0x88:
+                            Instructions.DEY();
+                            PC++;
+                            break;
+
                         case 0xa2:
                             Instructions.LDX(Adr_modes.Immediate());
                             PC++;
@@ -409,8 +414,19 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xc6:
+                            data = Instructions.DEC(Adr_modes.Zpg());
+                            Write();
+                            PC++;
+                            break;
+
                         case 0xc9:
                             Instructions.CMP(Adr_modes.Immediate());
+                            PC++;
+                            break;
+
+                        case 0xca:
+                            Instructions.DEX();
                             PC++;
                             break;
 
@@ -424,6 +440,12 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xce:
+                            data = Instructions.DEC(Adr_modes.Absolute());
+                            Write();
+                            PC++;
+                            break;
+
                         case 0xd1:
                             Instructions.CMP(Adr_modes.Post_Indexed());
                             PC++;
@@ -433,6 +455,12 @@ namespace _6502.Processor
                            Instructions.CMP(Adr_modes.Indexed_Zpg(X));
                            PC++;
                            break;
+
+                        case 0xd6:
+                            data = Instructions.DEC(Adr_modes.Indexed_Zpg(X));
+                            Write();
+                            PC++;
+                            break;
 
                         case 0xd8:
                             Instructions.CLD();
@@ -446,6 +474,12 @@ namespace _6502.Processor
 
                         case 0xdd:
                             Instructions.CMP(Adr_modes.Indexed(X));
+                            PC++;
+                            break;
+
+                        case 0xde:
+                            data = Instructions.DEC(Adr_modes.Indexed(X));
+                            Write();
                             PC++;
                             break;
 
