@@ -275,7 +275,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x4c:
-                            //JMP_abs
+                            Instructions.JMP(Adr_modes.JMP_Absolute());
                             break;
 
                         case 0x4d:
@@ -356,7 +356,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x6c:
-                            //JMP_ind
+                            Instructions.JMP(Adr_modes.Indirect());
                             break;
 
                         case 0x6d:

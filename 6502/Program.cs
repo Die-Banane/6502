@@ -6,7 +6,9 @@ namespace _6502
     {
         static void Main(string[] args)
         {
-            CPU.run(Console.ReadLine());
+            string path = Console.ReadLine();
+            
+            CPU.run(path);
             Console.ReadKey();
             CPU.Dump_temp();
             Console.ReadKey();

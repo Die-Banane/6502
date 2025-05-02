@@ -198,6 +198,11 @@ namespace _6502.Processor
             CPU.SR.N = (CPU.Y & 0x80) == 0x80;  
         }
 
+        public static void JMP(ushort address)
+        {
+            CPU.PC = address;
+        }
+
         public static void LSR(byte operand)
         {
             
