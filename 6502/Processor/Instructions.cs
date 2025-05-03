@@ -254,6 +254,9 @@ namespace _6502.Processor
             CPU.Fetch();
 
             CPU.A = CPU.data;
+
+            CPU.SR.N = (CPU.A & 0x80) == 0x80;
+            CPU.SR.Z = CPU.A == 0x00;
         }
     }
 }
