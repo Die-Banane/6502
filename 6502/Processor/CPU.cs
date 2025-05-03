@@ -200,7 +200,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x26:
-                            //RQL_zpg
+                            data = Instructions.ROL(Adr_modes.Zpg());
+                            Write();
+                            PC++;
                             break;
 
                         case 0x28:
@@ -213,7 +215,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x2a:
-                            //ROL_A
+                            A = Instructions.ROL(A);
+                            PC++;
                             break;
 
                         case 0x2c:
@@ -227,7 +230,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x2e:
-                            //ROL_abs
+                            data = Instructions.ROL(Adr_modes.Absolute());
+                            Write();
+                            PC++;
                             break;
 
                         case 0x30:
@@ -245,7 +250,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x36:
-                            //ROL_zpg_X
+                            data = Instructions.ROL(Adr_modes.Indexed_Zpg(X));
+                            Write();
+                            PC++;
                             break;
 
                         case 0x38:
@@ -263,7 +270,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x3e:
-                            //ROL_abs_X
+                            data = Instructions.ROL(Adr_modes.Indexed(X));
+                            Write();
+                            PC++;
                             break;
 
                         case 0x40:
@@ -372,7 +381,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x66:
-                            //ROR_zpg
+                            data = Instructions.ROR(Adr_modes.Zpg());
+                            Write();
+                            PC++;
                             break;
 
                         case 0x68:
@@ -386,7 +397,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x6a:
-                            //ROR_A
+                            A = Instructions.ROR(A);
+                            PC++;
                             break;
 
                         case 0x6c:
@@ -399,7 +411,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x6e:
-                            //ROR_abs
+                            data =Instructions.ROR(Adr_modes.Absolute());
+                            Write();
+                            PC++;
                             break;
 
                         case 0x70:
@@ -413,6 +427,18 @@ namespace _6502.Processor
 
                         case 0x75:
                             Instructions.ADC(Adr_modes.Indexed_Zpg(X));
+                            PC++;
+                            break;
+
+                        case 0x76:
+                            data = Instructions.ROR(Adr_modes.Indexed_Zpg(X));
+                            Write();
+                            PC++;
+                            break;
+
+                        case 0x7e:
+                            data = Instructions.ROR(Adr_modes.Indexed(X));
+                            Write();
                             PC++;
                             break;
 

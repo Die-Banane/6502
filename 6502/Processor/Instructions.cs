@@ -245,7 +245,7 @@ namespace _6502.Processor
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.data = CPU.SRToByte();
             CPU.Write();
-            CPU.PC--;
+            CPU.SP--;
         }
 
         public static void PLA()
@@ -257,6 +257,36 @@ namespace _6502.Processor
 
             CPU.SR.N = (CPU.A & 0x80) == 0x80;
             CPU.SR.Z = CPU.A == 0x00;
+
+            CPU.SP++;
+        }
+
+        public static byte ROL(byte operand)
+        {
+            bool carryTemp = CPU.SR.C;
+            CPU.SR.C = (operand & 0x80) == 0x80;
+
+            operand = (byte)(operand << 1);
+            operand |= carryTemp ? (byte)1 : (byte)0;
+
+            CPU.SR.N = (operand & 0x80) == 0x80;
+            CPU.SR.Z = operand == 0x00;
+
+            return operand;
+        }
+
+        public static byte ROR(byte operand)
+        {
+            bool carryTemp = CPU.SR.C;
+            CPU.SR.C = (operand & 0x01) == 0x01;
+
+            operand = (byte)(operand >> 1);
+            operand |= carryTemp ? (byte)0x80 : (byte)0x00;
+
+            CPU.SR.N = (operand & 0x80) == 0x80;
+            CPU.SR.Z = operand == 0x00;
+
+            return operand;
         }
     }
 }
