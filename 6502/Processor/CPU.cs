@@ -376,7 +376,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x68:
-                            //PLA_impl
+                            Instructions.PLA();
+                            PC++;
                             break;
 
                         case 0x69:

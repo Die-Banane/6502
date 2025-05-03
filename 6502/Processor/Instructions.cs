@@ -247,5 +247,13 @@ namespace _6502.Processor
             CPU.Write();
             CPU.PC--;
         }
+
+        public static void PLA()
+        {
+            CPU.bus = (ushort)(0x100 + CPU.SP);
+            CPU.Fetch();
+
+            CPU.A = CPU.data;
+        }
     }
 }
