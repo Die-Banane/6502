@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -237,6 +238,14 @@ namespace _6502.Processor
 
             CPU.SR.N = (CPU.A & 0x80) == 0x80;
             CPU.SR.Z = CPU.A == 0x00;
+        }
+
+        public static void PHP()
+        {
+            CPU.bus = (ushort)(0x100 + CPU.SP);
+            CPU.data = CPU.SRToByte();
+            CPU.Write();
+            CPU.PC--;
         }
     }
 }

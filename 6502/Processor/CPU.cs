@@ -35,9 +35,22 @@ namespace _6502.Processor
             public bool N; //Negative
         }
 
-        static byte low;
-        static byte high;
-        static byte zpAdr;
+        public static byte SRToByte()
+        {
+        byte status = 0;
+
+        if (CPU.SR.C) status |= 0x01;
+        if (CPU.SR.Z) status |= 0x02;
+        if (CPU.SR.I) status |= 0x04;
+        if (CPU.SR.D) status |= 0x08;
+        if (CPU.SR.B) status |= 0x10;
+        status |= 0x20;              
+        if (CPU.SR.V) status |= 0x40;
+        if (CPU.SR.N) status |= 0x80;
+
+        return status;
+        }
+
         public static void Fetch()
         {
             data = Memory.RAM[bus];
@@ -101,7 +114,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x08:
-                            //PHP_impl
+                            Instructions.PHP();
+                            PC++;
                             break;
 
                         case 0x09:
