@@ -1,13 +1,4 @@
-        LDX #$01
-        JMP direct
-
-indirectTarget:
-        LDA #$42
-        BRK
-
-indirectAddr:
-        .word indirectTarget
-
-direct:
-        LDA #$69
-        JMP (indirectAddr)
+LDA #$04
+JMP $07
+ADC #$04
+BRK

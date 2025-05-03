@@ -85,11 +85,13 @@ namespace _6502.Processor
                             return;
                         
                         case 0x01:
-                            //ORA_X_ind
+                            Instructions.ORA(Adr_modes.Pre_Indexed());
+                            PC++;
                             break;
 
                         case 0x05:
-                            //ORA_zpg
+                            Instructions.ORA(Adr_modes.Zpg());
+                            PC++;
                             break;
 
                         case 0x06:
@@ -103,7 +105,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x09:
-                            //ORA_immediate
+                            Instructions.ORA(Adr_modes.Immediate());
+                            PC++;
                             break;
 
                         case 0x0a:
@@ -112,7 +115,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x0d:
-                            //ORA_abs
+                            Instructions.ORA(Adr_modes.Absolute());
+                            PC++;
                             break;
 
                         case 0x0e:
@@ -126,11 +130,13 @@ namespace _6502.Processor
                             break;
 
                         case 0x11:
-                            //ORA_ind_Y
+                            Instructions.ORA(Adr_modes.Post_Indexed());
+                            PC++;
                             break;
 
                         case 0x15:
-                            //ORA_zpg_X
+                            Instructions.ORA(Adr_modes.Indexed_Zpg(X));
+                            PC++;
                             break;
                         
                         case 0x16:
@@ -145,11 +151,13 @@ namespace _6502.Processor
                             break;
 
                         case 0x19:
-                            //ORA_abs_Y
+                            Instructions.ORA(Adr_modes.Indexed(Y));
+                            PC++;
                             break;
 
                         case 0x1d:
-                            //ORA_abs_X
+                            Instructions.ORA(Adr_modes.Indexed(X));
+                            PC++;
                             break;
                         case 0x1e:
                             data = Instructions.ASL(Adr_modes.Indexed(X));
@@ -158,7 +166,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x20:
-                            //JSR_abs
+                            Instructions.JSR(Adr_modes.JMP_Absolute());
+                            PC++;
                             break;
 
                         case 0x21:
@@ -200,6 +209,7 @@ namespace _6502.Processor
 
                         case 0x2d:
                             Instructions.AND(Adr_modes.Absolute());
+                            PC++;
                             break;
 
                         case 0x2e:
@@ -257,7 +267,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x46:
-                            //LSR_zpg
+                            data = Instructions.LSR(Adr_modes.Zpg());
+                            Write();
+                            PC++;
                             break;
                             
                         case 0x48:
@@ -271,7 +283,8 @@ namespace _6502.Processor
                             break;
                         
                         case 0x4a:
-                            //LSR_A
+                            A = Instructions.LSR(A);
+                            PC++;
                             break;
 
                         case 0x4c:
@@ -284,7 +297,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x4e:
-                            //LSR_abs
+                            data = Instructions.LSR(Adr_modes.Absolute());
+                            Write();
+                            PC++;
                             break;
 
                         case 0x50:
@@ -302,7 +317,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x56:
-                            //LSR_zpg_X
+                            data = Instructions.LSR(Adr_modes.Indexed_Zpg(X));
+                            Write();
+                            PC++;
                             break;
 
                         case 0x58:
@@ -321,7 +338,9 @@ namespace _6502.Processor
                             break;
 
                         case 0x5e:
-                            //LSR_abs_X
+                            data = Instructions.LSR(Adr_modes.Indexed(X));
+                            Write();
+                            PC++;
                             break;
 
                         case 0x60:
@@ -515,6 +534,10 @@ namespace _6502.Processor
                         case 0xe8:
                             Instructions.INX();
                             PC++;
+                            break;
+
+                        case 0xea:
+                            Instructions.NOP();
                             break;
 
                         case 0xec:

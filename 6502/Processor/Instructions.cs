@@ -46,7 +46,6 @@ namespace _6502.Processor
             CPU.Write();
 
             CPU.SP--;
-            CPU.PC++;
         }
 
         public static void LDA(byte operand)
@@ -200,12 +199,44 @@ namespace _6502.Processor
 
         public static void JMP(ushort address)
         {
-            CPU.PC = address;
+            CPU.PC = (ushort)(address + 0x200);
         }
 
-        public static void LSR(byte operand)
+        public static void JSR(ushort address)
         {
-            
+            CPU.bus = (ushort)(0x0100 + CPU.SP);
+
+            CPU.data = (byte)(CPU.PC + 2);
+
+            CPU.Write();
+            CPU.SP--;
+
+            JMP(address);
+        }
+
+        public static byte LSR(byte operand)
+        {
+            CPU.SR.C = (operand & 0x01) == 0x01;
+
+            operand = (byte)(operand >> 1);
+
+            CPU.SR.Z = operand == 0x00;
+            CPU.SR.N = false;
+
+            return operand;
+        }
+
+        public static void NOP()
+        {
+            CPU.PC++;
+        }
+
+        public static void ORA(byte operand)
+        {
+            CPU.A = (byte)(CPU.A | operand);
+
+            CPU.SR.N = (CPU.A & 0x80) == 0x80;
+            CPU.SR.Z = CPU.A == 0x00;
         }
     }
 }
