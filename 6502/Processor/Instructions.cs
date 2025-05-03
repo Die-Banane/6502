@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -287,6 +288,32 @@ namespace _6502.Processor
             CPU.SR.Z = operand == 0x00;
 
             return operand;
+        }
+
+        public static void RTI()
+        {
+            CPU.bus = (ushort)(0x100 + CPU.SP);
+            CPU.Fetch();
+            CPU.ByteToSR(CPU.data);
+            
+            CPU.SP++;
+
+            CPU.bus = (ushort)(0x100 + CPU.SP);
+            CPU.Fetch();
+            CPU.PC = CPU.data;
+
+            CPU.SP++;
+        }
+
+        public static void RTS()
+        {
+            CPU.bus = (ushort)(0x100 + CPU.SP);
+            CPU.Fetch();
+            CPU.PC = CPU.data;
+
+            CPU.SP++;
+
+            CPU.PC++;
         }
     }
 }

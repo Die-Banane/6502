@@ -51,6 +51,18 @@ namespace _6502.Processor
         return status;
         }
 
+        public static void ByteToSR(byte value)
+        {
+            CPU.SR.N = (value & 0x80) != 0;
+            CPU.SR.V = (value & 0x40) != 0;
+            CPU.SR.U = true;               
+            CPU.SR.B = (value & 0x10) != 0;
+            CPU.SR.D = (value & 0x08) != 0;
+            CPU.SR.I = (value & 0x04) != 0;
+            CPU.SR.Z = (value & 0x02) != 0;
+            CPU.SR.C = (value & 0x01) != 0;
+        }
+
         public static void Fetch()
         {
             data = Memory.RAM[bus];
@@ -276,7 +288,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x40:
-                            //RTI
+                            Instructions.RTI();
                             break;
 
                         case 0x41:
@@ -367,7 +379,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x60:
-                            //RTS_impl
+                            Instructions.RTS();
                             break;
 
                         case 0x61:
