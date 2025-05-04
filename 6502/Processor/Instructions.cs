@@ -375,5 +375,115 @@ namespace _6502.Processor
             CPU.SR.N = (CPU.A & 0x80) == 0x80;
             CPU.SR.Z = CPU.A == 0x00;
         }
+
+        public static void BCC(sbyte offset)
+        {
+            if(!CPU.SR.C)
+            {
+                CPU.PC = (ushort)(sbyte)(CPU.PC + offset);
+            }
+            else
+            {
+                CPU.PC++;
+            }
+        }
+
+        public static void BCS(sbyte offset)
+        {
+            if(CPU.SR.C)
+            {
+                CPU.PC = (ushort)(sbyte)(CPU.PC + offset);
+            }
+            else
+            {
+                CPU.PC++;
+            }
+        }
+
+        public static void BEQ(sbyte offset)
+        {
+            if(CPU.SR.Z)
+            {
+                CPU.PC = (ushort)(sbyte)(CPU.PC + offset);
+            }
+            else
+            {
+                CPU.PC++;
+            }
+        }
+
+        public static void BMI(sbyte offset)
+        {
+            if(CPU.SR.N)
+            {
+                CPU.PC = (ushort)(sbyte)(CPU.PC + offset);
+            }
+            else
+            {
+                CPU.PC++;
+            }
+        }
+
+        public static void BNE(sbyte offset)
+        {
+            if(!CPU.SR.Z)
+            {
+                CPU.PC = (ushort)(sbyte)(CPU.PC + offset);
+            }
+            else
+            {
+                CPU.PC++;
+            }
+        }
+
+        public static void BPL(sbyte offset)
+        {
+            if(!CPU.SR.N)
+            {
+                CPU.PC = (ushort)(sbyte)(CPU.PC + offset);
+            }
+            else
+            {
+                CPU.PC++;
+            }
+        }
+
+        public static void BVC(sbyte offset)
+        {
+            if(!CPU.SR.V)
+            {
+                CPU.PC = (ushort)(sbyte)(CPU.PC + offset);
+            }
+            else
+            {
+                CPU.PC++;
+            }
+        }
+
+        public static void BVS(sbyte offset)
+        {
+            if(CPU.SR.V)
+            {
+                CPU.PC = (ushort)(sbyte)(CPU.PC + offset);
+            }
+            else
+            {
+                CPU.PC++;
+            }
+        }
+
+        public static void SEC()
+        {
+            CPU.SR.C = true;
+        }
+
+        public static void PLP()
+        {
+            CPU.bus = (ushort)(0x100 + CPU.SP);
+            CPU.Fetch();
+            CPU.ByteToSR(CPU.data);
+
+            CPU.SP++;
+        }
     }
 }

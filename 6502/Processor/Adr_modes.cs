@@ -160,5 +160,14 @@ namespace _6502
 
             return CPU.data;
         }
+
+        public static sbyte Relative()
+        {
+            CPU.PC++;
+            CPU.bus = CPU.PC;
+            CPU.Fetch();
+
+            return (sbyte)(CPU.data);
+        }
     }
 }

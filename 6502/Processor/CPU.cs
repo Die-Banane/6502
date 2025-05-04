@@ -152,7 +152,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x10:
-                            //BPL_rel
+                            Instructions.BPL(Adr_modes.Relative());
                             break;
 
                         case 0x11:
@@ -219,7 +219,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x28:
-                            //PLP_impl
+                            Instructions.PLP();
+                            PC++;
                             break;
 
                         case 0x29:
@@ -249,7 +250,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x30:
-                            //BMI_rel
+                            Instructions.BMI(Adr_modes.Relative());
                             break;
 
                         case 0x31:
@@ -269,7 +270,8 @@ namespace _6502.Processor
                             break;
 
                         case 0x38:
-                            //SEC_impl
+                            Instructions.SEC();
+                            PC++;
                             break;
 
                         case 0x39:
@@ -340,7 +342,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x50:
-                            //BVC_rel
+                            Instructions.BVC(Adr_modes.Relative());
                             break;
 
                         case 0x51:
@@ -431,7 +433,7 @@ namespace _6502.Processor
                             break;
 
                         case 0x70:
-                            //BVS_rel
+                            Instructions.BVS(Adr_modes.Relative());
                             break;
 
                         case 0x71:
@@ -494,6 +496,10 @@ namespace _6502.Processor
                             Adr_modes.Absolute();
                             Instructions.STX(bus);
                             PC++;
+                            break;
+
+                        case 0x90:
+                            Instructions.BCC(Adr_modes.Relative());
                             break;
 
                         case 0x91:
