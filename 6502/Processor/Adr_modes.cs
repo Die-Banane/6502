@@ -30,22 +30,8 @@ namespace _6502
 
             CPU.bus = (ushort)((high << 8) | low);
             CPU.Fetch();
+
             return CPU.data;
-        }
-        
-        public static ushort JMP_Absolute()
-        {
-            CPU.PC++;
-            CPU.bus = CPU.PC;
-            CPU.Fetch();
-            byte low = CPU.data;
-
-            CPU.PC++;
-            CPU.bus = CPU.PC;
-            CPU.Fetch();
-            byte high = CPU.data;
-
-            return (ushort)((high << 8) | low);
         }
         public static byte Zpg()
         {

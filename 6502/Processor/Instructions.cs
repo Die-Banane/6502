@@ -315,5 +315,20 @@ namespace _6502.Processor
 
             CPU.PC++;
         }
+
+        public static void STA(ushort address)
+        {
+            Memory.RAM[address] = CPU.A;
+        }
+
+        public static void STX(ushort address)
+        {
+            Memory.RAM[address] = CPU.X;
+        }
+
+        public static void STY(ushort address)
+        {
+            Memory.RAM[address] = CPU.Y;
+        }
     }
 }
