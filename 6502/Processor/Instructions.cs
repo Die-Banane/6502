@@ -330,5 +330,50 @@ namespace _6502.Processor
         {
             Memory.RAM[address] = CPU.Y;
         }
+
+        public static void TAX()
+        {
+            CPU.X = CPU.A;
+
+            CPU.SR.N = (CPU.X & 0x80) == 0x80;
+            CPU.SR.Z = CPU.X == 0x00;
+        }
+
+        public static void TAY()
+        {
+            CPU.Y = CPU.A;
+
+            CPU.SR.N = (CPU.Y & 0x80) == 0x80;
+            CPU.SR.Z = CPU.Y == 0x00;
+        }
+
+        public static void TSX()
+        {
+            CPU.X = CPU.SP;
+
+            CPU.SR.N = (CPU.X & 0x80) == 0x80;
+            CPU.SR.Z = CPU.X == 0x00;
+        }
+
+        public static void TXA()
+        {
+            CPU.A = CPU.X;
+
+            CPU.SR.N = (CPU.A & 0x80) == 0x80;
+            CPU.SR.Z = CPU.A == 0x00;
+        }
+
+        public static void TXS()
+        {
+            CPU.SP = CPU.X;
+        }
+
+        public static void TYA()
+        {
+            CPU.A = CPU.Y;
+
+            CPU.SR.N = (CPU.A & 0x80) == 0x80;
+            CPU.SR.Z = CPU.A == 0x00;
+        }
     }
 }

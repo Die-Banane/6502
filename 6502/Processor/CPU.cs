@@ -479,6 +479,11 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0x8a:
+                            Instructions.TXA();
+                            PC++;
+                            break;
+
                         case 0x8d:
                             Adr_modes.Absolute();
                             Instructions.STA(bus);
@@ -509,9 +514,19 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0x98:
+                            Instructions.TYA();
+                            PC++;
+                            break;
+
                         case 0x99:
                             Adr_modes.Indexed(Y);
                             Instructions.STA(bus);
+                            PC++;
+                            break;
+
+                        case 0x9a:
+                            Instructions.TXS();
                             PC++;
                             break;
 
@@ -526,13 +541,28 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xa8:
+                            Instructions.TAY();
+                            PC++;
+                            break;
+
                         case 0xa9:
                             Instructions.LDA(Adr_modes.Immediate());
                             PC++;
                             break;
 
+                        case 0xaa:
+                            Instructions.TAX();
+                            PC++;
+                            break;
+
                         case 0xb8:
                             Instructions.CLV();
+                            PC++;
+                            break;
+
+                        case 0xba:
+                            Instructions.TSX();
                             PC++;
                             break;
 
