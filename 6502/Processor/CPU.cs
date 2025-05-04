@@ -757,7 +757,7 @@ namespace _6502.Processor
         {
             string dir = Path.Combine(AppContext.BaseDirectory, "output");
             
-            if(Directory.Exists(dir))
+            if(!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
             }
