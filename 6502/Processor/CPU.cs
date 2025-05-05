@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace _6502.Processor
 {
@@ -595,6 +596,11 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xad:
+                            Instructions.LDA(Adr_modes.Absolute());
+                            PC++;
+                            break;
+
                         case 0xb4:
                             Instructions.LDY(Adr_modes.Indexed_Zpg(X));
                             PC++;
@@ -750,6 +756,10 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xf0:
+                            Instructions.BEQ(Adr_modes.Relative());
+                            break;
+
                         case 0xf6:
                             data = Instructions.INC(Adr_modes.Indexed_Zpg(X));
                             Write();
@@ -805,15 +815,15 @@ namespace _6502.Processor
 
         public static void Dump()
         {
-            string dir = Path.Combine(AppContext.BaseDirectory, "output");
-            
-            if(!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
+            //string dir = Path.Combine(AppContext.BaseDirectory, "output");
+            //
+            //if(!Directory.Exists(dir))
+            //{
+            //    Directory.CreateDirectory(dir);
+            //}
 
-            string fullPath = Path.Combine(dir, "output1.bin");
-            File.WriteAllBytes(fullPath, Memory.RAM);
+            //string fullPath = Path.Combine(dir, "output1.bin");
+            File.WriteAllBytes("/home/jonas/Schreibtisch/Output.bin", Memory.RAM);
         }
     }
 }

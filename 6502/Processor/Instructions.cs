@@ -201,7 +201,7 @@ namespace _6502.Processor
 
         public static void JMP(ushort address)
         {
-            CPU.PC = (ushort)(address + 0x200);
+            CPU.PC = (ushort)(address + 0x199);
         }
 
         public static void JSR(ushort address)

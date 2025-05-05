@@ -1,48 +1,47 @@
-; LDA Immediate
-LDA #$42         ; A = $42
-STA $0400        ; $0400 = $42
+; Start (du kannst ihn z. B. bei 0x0200 oder 0x0600 im RAM ablegen)
 
-; LDX Immediate
-LDX #$05         ; X = $05
-STX $0401        ; $0401 = $05
+        LDX #$00         ; X = 0
+        LDY #$10         ; Y = 16
+        STX $0100        ; Speicher[0x0100] = 0
+        STY $0101        ; Speicher[0x0101] = 16
 
-; LDY Immediate
-LDY #$10         ; Y = $10
-STY $0402        ; $0402 = $10
+        LDA #$05         ; A = 5
+        STA $0102        ; Speicher[0x0102] = 5
 
-; TAX / TAY
-TAX              ; A → X (X = $42)
-TAY              ; A → Y (Y = $42)
-STX $0403        ; $0403 = $42
-STY $0404        ; $0404 = $42
+        LDA $0101        ; A = 16
+        ADC #$0A         ; A += 10 → A = 26 (0x1A)
+        STA $0103        ; Speicher[0x0103] = 26
 
-; INX, INY, DEX, DEY
-INX              ; X = $43
-INY              ; Y = $43
-DEX              ; X = $42
-DEY              ; Y = $42
-STX $0405        ; $0405 = $42
-STY $0406        ; $0406 = $42
+        SBC #$05         ; A -= 5 → A = 21 (0x15)
+        STA $0104        ; Speicher[0x0104] = 21
 
-; ADC (Add with Carry)
-CLC              ; Clear Carry
-ADC #$10         ; A = $42 + $10 = $52
-STA $0407        ; $0407 = $52
+        CMP #$15         ; Vergleich mit 21 → Zero-Flag wird gesetzt
+        BEQ equal_label  ; Sollte springen (da A == $15)
 
-; SBC (Subtract with Carry)
-SEC              ; Set Carry (nötig für SBC!)
-SBC #$02         ; A = $52 - $02 = $50
-STA $0408        ; $0408 = $50
+        LDA #$00         ; Wird übersprungen
+        STA $010F
 
-; Bitwise operations
-AND #$F0         ; A = $50 & $F0 = $50
-STA $0409        ; $0409 = $50
+equal_label:
+        LDA #$55
+        STA $0105
 
-ORA #$0F         ; A = $50 | $0F = $5F
-STA $040A        ; $040A = $5F
+        PHA              ; Push 0x55 auf Stack
+        LDA #$00         ; A = 0
+        PLA              ; A = 0x55
+        STA $0106
 
-EOR #$FF         ; A = $5F ^ $FF = $A0
-STA $040B        ; $040B = $A0
+        JSR subroutine   ; Springt zu Subroutine und kommt zurück
 
-; BRK – beendet Programm
-BRK
+        INC $0100        ; 0 → 1
+        DEC $0101        ; 16 → 15
+
+        ASL $0102        ; 5 << 1 = 10
+        ROR $0103        ; 26 >> 1 mit Carry = 13
+
+        BRK              ; Programmende
+
+; ----------- Subroutine -------------
+subroutine:
+        LDA #$42
+        STA $0107
+        RTS
