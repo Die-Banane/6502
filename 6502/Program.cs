@@ -11,7 +11,7 @@ namespace _6502
             CPU.run(path);
             Console.ReadKey();
             CPU.Dump_temp();
-            CPU.Dump();
+            //CPU.Dump();
             Console.ReadKey();
         }
     }

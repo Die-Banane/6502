@@ -464,6 +464,12 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0x84:
+                            Adr_modes.Zpg();
+                            Instructions.STY(bus);
+                            PC++;
+                            break;
+
                         case 0x85:
                             Adr_modes.Zpg();
                             Instructions.STA(bus);
@@ -486,6 +492,12 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0x8c:
+                            Adr_modes.Absolute();
+                            Instructions.STY(bus);
+                            PC++;
+                            break;
+
                         case 0x8d:
                             Adr_modes.Absolute();
                             Instructions.STA(bus);
@@ -505,6 +517,12 @@ namespace _6502.Processor
                         case 0x91:
                             Adr_modes.Post_Indexed();
                             Instructions.STA(bus);
+                            PC++;
+                            break;
+
+                        case 0x94:
+                            Adr_modes.Indexed_Zpg(X);
+                            Instructions.STY(bus);
                             PC++;
                             break;
 
@@ -542,8 +560,18 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xa0:
+                            Instructions.LDY(Adr_modes.Immediate());
+                            PC++;
+                            break;
+
                         case 0xa2:
                             Instructions.LDX(Adr_modes.Immediate());
+                            PC++;
+                            break;
+
+                        case 0xa4:
+                            Instructions.LDY(Adr_modes.Zpg());
                             PC++;
                             break;
 
@@ -562,6 +590,16 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xac:
+                            Instructions.LDY(Adr_modes.Absolute());
+                            PC++;
+                            break;
+
+                        case 0xb4:
+                            Instructions.LDY(Adr_modes.Indexed_Zpg(X));
+                            PC++;
+                            break;
+
                         case 0xb8:
                             Instructions.CLV();
                             PC++;
@@ -569,6 +607,11 @@ namespace _6502.Processor
 
                         case 0xba:
                             Instructions.TSX();
+                            PC++;
+                            break;
+
+                        case 0xbc:
+                            Instructions.LDY(Adr_modes.Indexed(X));
                             PC++;
                             break;
 
@@ -750,7 +793,7 @@ namespace _6502.Processor
             Console.WriteLine("B flag: " + SR.B.ToString());
             Console.WriteLine("V flag: " + SR.V.ToString());
             Console.WriteLine("N flag: " + SR.N.ToString());
-            Console.WriteLine(Memory.RAM[0x60].ToString("X4"));
+            Console.WriteLine(Memory.RAM[0x400].ToString("X4"));
         }
 
         public static void Dump()
