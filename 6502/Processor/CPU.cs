@@ -730,6 +730,11 @@ namespace _6502.Processor
                             PC++;
                             break;
 
+                        case 0xe9:
+                            Instructions.SBC(Adr_modes.Immediate());
+                            PC++;
+                            break;
+
                         case 0xea:
                             Instructions.NOP();
                             break;
@@ -757,7 +762,9 @@ namespace _6502.Processor
                             PC++;
                             break;
 
-                        //TODO: add default case and the other opCodes
+                        default:
+                            Console.WriteLine("invalide opcode: " + opCode);
+                            return;
                     }
                     #endregion opCodes
             }
