@@ -11,6 +11,8 @@ namespace _6502.Processor
 {
     public static class Instructions
     {
+
+        //TODO: Fix every pull
         public static void ADC(byte operand)
         {
             byte carry = (CPU.SR.C ? (byte)1 : (byte)0);
@@ -201,15 +203,13 @@ namespace _6502.Processor
 
         public static void JMP(ushort address)
         {
-            CPU.PC = (ushort)(address + 0x199);
+            CPU.PC = (ushort)(address);
         }
 
         public static void JSR(ushort address)
         {
             CPU.bus = (ushort)(0x0100 + CPU.SP);
-
             CPU.data = (byte)(CPU.PC + 2);
-
             CPU.Write();
             CPU.SP--;
 
@@ -294,26 +294,21 @@ namespace _6502.Processor
         {
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.Fetch();
-            CPU.ByteToSR(CPU.data);
-            
+            CPU.ByteToSR(CPU.data); 
             CPU.SP++;
 
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.Fetch();
             CPU.PC = CPU.data;
-
             CPU.SP++;
         }
 
         public static void RTS()
         {
+            CPU.SP++;
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.Fetch();
             CPU.PC = CPU.data;
-
-            CPU.SP++;
-
-            CPU.PC++;
         }
 
         public static void STA(ushort address)

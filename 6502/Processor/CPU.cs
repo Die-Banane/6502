@@ -107,7 +107,7 @@ namespace _6502.Processor
                     switch(opCode)
                     {
                         case 0x00:
-                            Console.WriteLine("die Ausführung des Programms wurde erfolgreich beendet");
+                            Console.WriteLine("die Ausführung des Programms wurde erfolgreich beendet an Adresse: " + PC.ToString("X4"));
                             return;
                         
                         case 0x01:
@@ -195,7 +195,6 @@ namespace _6502.Processor
                         case 0x20:
                             Adr_modes.Absolute();
                             Instructions.JSR(bus);
-                            PC++;
                             break;
 
                         case 0x21:
@@ -773,7 +772,7 @@ namespace _6502.Processor
                             break;
 
                         default:
-                            Console.WriteLine("invalide opcode: " + opCode);
+                            Console.WriteLine("invalid opcode: " + opCode.ToString("X4") + " at: " + PC);
                             return;
                     }
                     #endregion opCodes
@@ -782,7 +781,7 @@ namespace _6502.Processor
 
         public static void run(string path)
         {
-            ushort address = 0x0200;
+            ushort address = 0x000;
 
             foreach(byte opCode in File.ReadAllBytes(path))
             {
@@ -790,8 +789,8 @@ namespace _6502.Processor
                 address++;
             }
 
-            Memory.RAM[0xfffc] = 0x00;
-            Memory.RAM[0xfffd] = 0x02;
+            //Memory.RAM[0xfffc] = 0x00;
+            //Memory.RAM[0xfffd] = 0x02;
 
             Reset();
             execute();
@@ -810,7 +809,7 @@ namespace _6502.Processor
             Console.WriteLine("B flag: " + SR.B.ToString());
             Console.WriteLine("V flag: " + SR.V.ToString());
             Console.WriteLine("N flag: " + SR.N.ToString());
-            Console.WriteLine(Memory.RAM[0x400].ToString("X4"));
+            Console.WriteLine(Memory.RAM[0x107].ToString("X4"));
         }
 
         public static void Dump()
