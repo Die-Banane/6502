@@ -251,6 +251,7 @@ namespace _6502.Processor
 
         public static void PLA()
         {
+            CPU.SP++;
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.Fetch();
 
@@ -258,8 +259,6 @@ namespace _6502.Processor
 
             CPU.SR.N = (CPU.A & 0x80) == 0x80;
             CPU.SR.Z = CPU.A == 0x00;
-
-            CPU.SP++;
         }
 
         public static byte ROL(byte operand)
@@ -292,15 +291,15 @@ namespace _6502.Processor
 
         public static void RTI()
         {
+            CPU.SP++;
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.Fetch();
             CPU.ByteToSR(CPU.data); 
-            CPU.SP++;
 
+            CPU.SP++;
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.Fetch();
             CPU.PC = CPU.data;
-            CPU.SP++;
         }
 
         public static void RTS()
@@ -474,11 +473,10 @@ namespace _6502.Processor
 
         public static void PLP()
         {
+            CPU.SP++;
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.Fetch();
             CPU.ByteToSR(CPU.data);
-
-            CPU.SP++;
         }
     }
 }
