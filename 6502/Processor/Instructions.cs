@@ -213,10 +213,6 @@ namespace _6502.Processor
             CPU.Write();
             CPU.SP--;
 
-            Console.WriteLine("now jumping to address " + address.ToString("X4"));
-            Console.WriteLine("Return address: " + CPU.data.ToString("X4"));
-            Console.ReadKey();
-
             JMP(address);
         }
 
@@ -312,9 +308,6 @@ namespace _6502.Processor
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.Fetch();
             CPU.PC = (byte)(CPU.data + 1);
-
-            Console.WriteLine("now returning to address " + CPU.PC.ToString("X4"));
-            Console.ReadKey();
         }
 
         public static void STA(ushort address)

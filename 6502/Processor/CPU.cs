@@ -822,7 +822,14 @@ namespace _6502.Processor
             //}
 
             //string fullPath = Path.Combine(dir, "output1.bin");
-            File.WriteAllBytes("/home/jonas/Schreibtisch/Output.bin", Memory.RAM);
+            try
+            {
+                File.WriteAllBytes("/home/jonas/Schreibtisch/Output.bin", Memory.RAM);
+            }
+            catch
+            {
+                Console.WriteLine("dieser Code wurde nicht auf Jonas Laptop ausgeführt");
+            }
         }
     }
 }
