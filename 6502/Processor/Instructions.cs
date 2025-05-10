@@ -209,9 +209,13 @@ namespace _6502.Processor
         public static void JSR(ushort address)
         {
             CPU.bus = (ushort)(0x0100 + CPU.SP);
-            CPU.data = (byte)(CPU.PC + 2);
+            CPU.data = (byte)(CPU.PC); //dont Increment PC because the ansolute Addressing mode already incremented the PC twice
             CPU.Write();
             CPU.SP--;
+
+            Console.WriteLine("now jumping to address " + address.ToString("X4"));
+            Console.WriteLine("Return address: " + CPU.data.ToString("X4"));
+            Console.ReadKey();
 
             JMP(address);
         }
@@ -307,7 +311,10 @@ namespace _6502.Processor
             CPU.SP++;
             CPU.bus = (ushort)(0x100 + CPU.SP);
             CPU.Fetch();
-            CPU.PC = CPU.data;
+            CPU.PC = (byte)(CPU.data + 1);
+
+            Console.WriteLine("now returning to address " + CPU.PC.ToString("X4"));
+            Console.ReadKey();
         }
 
         public static void STA(ushort address)
