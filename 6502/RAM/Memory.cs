@@ -4,6 +4,6 @@ namespace _6502
 {
     public static class Memory
     {
-        public static byte[] RAM = new byte[1000000];
+        public static byte[] RAM = new byte[0x7fff];
     }
 }
